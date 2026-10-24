@@ -6,13 +6,28 @@
 # Kubernetes secrets
 **/secrets.yml
 **/secrets.yaml
+*secret*.yml
+*secret*.yaml
+!*secret*.example.yml
+!*secret*.example.yaml
+
+# Credentials, certificates and keys
+*.pem
+*.key
+*.crt
+credentials.json
+client_secret*.json
 
 # Node modules
 node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
 # Build files
 dist/
 build/
+.cache/
 
 # Logs
 *.log
