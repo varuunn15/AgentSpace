@@ -1,0 +1,14 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: sandbox-service
+  annotations:
+    alb.ingress.kubernetes.io/healthcheck-path: /_status/healthz
+spec:
+  selector:
+    app: sandbox-api
+  type: ClusterIP 
+  ports:
+  - name: main-sandbox-port
+    port: 80
+    targetPort: 3000

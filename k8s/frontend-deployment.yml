@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-deployment
+  labels:
+    app: frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+        - name: frontend
+          image: 688928000248.dkr.ecr.ap-southeast-1.amazonaws.com/frontend:latest
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 5173
+          env:
+            - name: VITE_SANDBOX_DOMAIN
+              value: agentspace.54.255.113.123.nip.io
+            - name: VITE_SANDBOX_API_TARGET
+              value: http://sandbox-service:80
+            - name: VITE_AUTH_API_TARGET
+              value: http://auth-service:80
+            - name: VITE_AI_API_TARGET
+              value: http://ai-service:80
