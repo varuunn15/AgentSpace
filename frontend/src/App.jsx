@@ -73,7 +73,12 @@ export default function App() {
     const preview = new URL(data.previewUrl, window.location.origin)
     const agentUrl = new URL(data.previewUrl, window.location.origin)
     agentUrl.hostname = preview.hostname.replace('.preview.', '.agent.')
-    setSandbox({ sandboxId: data.sandboxId, previewUrl: data.previewUrl, agentBase: agentUrl.origin })
+    setSandbox({
+      sandboxId: data.sandboxId,
+      previewUrl: data.previewUrl,
+      agentBase: agentUrl.origin,
+      initialPrompt: data.initialPrompt
+    })
     setStatus('ready')
   }, [])
 
@@ -178,6 +183,7 @@ export default function App() {
         <div className="shrink-0 overflow-hidden" style={{ width: '340px' }}>
           <AiChat
             sandboxId={sandboxId}
+            initialPrompt={sandbox?.initialPrompt}
             onFilesChanged={handleFilesChanged}
           />
         </div>

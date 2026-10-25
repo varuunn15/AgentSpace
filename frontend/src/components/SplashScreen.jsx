@@ -165,7 +165,7 @@ export default function SplashScreen({ onSandboxCreated, user, onUserChange, onL
       }
       if (!sandboxRes.ok) throw new Error(`Failed to start sandbox (${sandboxRes.status})`)
       const sandboxData = await sandboxRes.json()
-      onSandboxCreated(sandboxData)
+      onSandboxCreated({ ...sandboxData, initialPrompt: projectTitle })
     } catch (err) {
       setError(err.message || 'Failed to create sandbox')
       setLoading(false)

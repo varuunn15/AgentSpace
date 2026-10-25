@@ -84,28 +84,56 @@ function explainAiError(error) {
   return `Error: ${message}`
 }
 
-export default function AiChat({ sandboxId, onFilesChanged }) {
-  const [messages, setMessages] = useState(() => [
-    {
-      role: 'assistant',
-      content: 'Hi! I can modify your sandbox project. Describe what you want to build or change, and I\'ll update the code for you.',
-      activity: [],
-      time: Date.now()
+export default function AiChat({ sandboxId, initialPrompt, onFilesChanged }) {
+  const storageKey = sandboxId ? ('agentspace_chat_' + sandboxId) : null;
+
+  const [messages, setMessages] = useState(() => {
+    if (storageKey) {
+      try {
+        const saved = localStorage.getItem(storageKey)
+        if (saved) {
+          const parsed = JSON.parse(saved)
+          if (Array.isArray(parsed) && parsed.length > 0) return parsed
+        }
+      } catch {
+        // ignore
+      }
     }
-  ])
+    return [
+      {
+        role: 'assistant',
+        content: 'Hi! I can modify your sandbox project. Describe what you want to build or change, and I\'ll update the code for you.',
+        activity: [],
+        time: Date.now()
+      }
+    ]
+  })
+
   const [input, setInput] = useState('')
   const [streaming, setStreaming] = useState(false)
   const bottomRef = useRef(null)
+  const initialTriggered = useRef(false)
+
+  // Save to localStorage whenever messages change
+  useEffect(() => {
+    if (!storageKey) return
+    try {
+      const completed = messages.filter(m => !m.pending)
+      localStorage.setItem(storageKey, JSON.stringify(completed))
+    } catch {
+      // ignore
+    }
+  }, [messages, storageKey])
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages])
 
-  const sendMessage = useCallback(async () => {
-    const text = input.trim()
+  const sendMessage = useCallback(async (customText) => {
+    const text = (typeof customText === 'string' ? customText : input).trim()
     if (!text || streaming || !sandboxId) return
 
-    setInput('')
+    if (typeof customText !== 'string') setInput('')
     setStreaming(true)
 
     const userMsg = { role: 'user', content: text, activity: [], time: Date.now() }
@@ -197,6 +225,13 @@ export default function AiChat({ sandboxId, onFilesChanged }) {
       sendMessage()
     }
   }
+
+  useEffect(() => {
+    if (initialPrompt && !initialTriggered.current && messages.length <= 1 && !streaming) {
+      initialTriggered.current = true
+      sendMessage(initialPrompt)
+    }
+  }, [initialPrompt, messages.length, streaming, sendMessage])
 
   return (
     <div className="flex flex-col h-full"

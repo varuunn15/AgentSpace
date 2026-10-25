@@ -6,7 +6,7 @@ import { createAgent } from "langchain";
 const model = new ChatMistralAI({
     // Small is available in Mistral's free API mode; Large returns a 403 on
     // keys that do not have paid-tier access. Allow deployments to override it.
-    model: process.env.MISTRAL_MODEL || "mistral-small-latest",
+    model: process.env.MISTRAL_MODEL || "open-mistral-7b",
     apiKey: process.env.MISTRALAI_API_KEY,
     "temperature": 0.7,
 })
