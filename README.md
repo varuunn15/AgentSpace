@@ -1,7 +1,7 @@
 # 🚀 AgentSpace — Cloud-Native AI Sandbox & Web IDE
 
-> 🌐 **Permanent Live Deployment (AWS ALB)**: [http://k8s-default-codespac-39be8f97ce-344985305.ap-southeast-1.elb.amazonaws.com](http://k8s-default-codespac-39be8f97ce-344985305.ap-southeast-1.elb.amazonaws.com)  
-> 🔗 **Custom Wildcard Domain (nip.io)**: [http://agentspace.54.255.113.123.nip.io](http://agentspace.54.255.113.123.nip.io)  
+> 🔗 **Primary Live Deployment (nip.io)**: [http://agentspace.54.255.113.123.nip.io](http://agentspace.54.255.113.123.nip.io)  
+> 🌐 **Permanent Direct AWS ALB**: [http://k8s-default-codespac-39be8f97ce-344985305.ap-southeast-1.elb.amazonaws.com](http://k8s-default-codespac-39be8f97ce-344985305.ap-southeast-1.elb.amazonaws.com)  
 > 🪞 **Alternative Mirror (sslip.io)**: [http://agentspace-54-255-113-123.sslip.io](http://agentspace-54-255-113-123.sslip.io)  
 >
 > 💡 *Note: The deployment serves over HTTP (port 80). Ensure your browser does not auto-upgrade the request to HTTPS (`https://`).*
