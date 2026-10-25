@@ -56,6 +56,28 @@ spec:
             port: 
               number: 80
 
+  - host: "*.preview.agentspace-54-255-113-123.sslip.io"
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: router-service
+            port: 
+              number: 80
+
+  - host: "*.agent.agentspace-54-255-113-123.sslip.io"
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: router-service
+            port: 
+              number: 80
+
   - host: "*.preview.localhost"
     http:
       paths:

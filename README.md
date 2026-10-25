@@ -1,7 +1,10 @@
 # 🚀 AgentSpace — Cloud-Native AI Sandbox & Web IDE
 
-> 🌐 **Live Production Deployment**: [http://agentspace.54.255.113.123.nip.io](http://agentspace.54.255.113.123.nip.io)  
-> 🔗 **Alternative Mirror URL**: [http://agentspace-54-255-113-123.sslip.io](http://agentspace-54-255-113-123.sslip.io)
+> 🌐 **Permanent Live Deployment (AWS ALB)**: [http://k8s-default-codespac-39be8f97ce-344985305.ap-southeast-1.elb.amazonaws.com](http://k8s-default-codespac-39be8f97ce-344985305.ap-southeast-1.elb.amazonaws.com)  
+> 🔗 **Custom Wildcard Domain (nip.io)**: [http://agentspace.54.255.113.123.nip.io](http://agentspace.54.255.113.123.nip.io)  
+> 🪞 **Alternative Mirror (sslip.io)**: [http://agentspace-54-255-113-123.sslip.io](http://agentspace-54-255-113-123.sslip.io)  
+>
+> 💡 *Note: The deployment serves over HTTP (port 80). Ensure your browser does not auto-upgrade the request to HTTPS (`https://`).*
 
 [![Kubernetes](https://img.shields.io/badge/Kubernetes-1.28%2B-326CE5?logo=kubernetes&logoColor=white)](https://kubernetes.io/)
 [![AWS EKS](https://img.shields.io/badge/AWS-EKS-FF9900?logo=amazonaws&logoColor=white)](https://aws.amazon.com/eks/)
@@ -256,12 +259,16 @@ kubectl apply -f k8s/secrets.yml
 
 1. Open the **[Google Cloud Console Credentials Page](https://console.cloud.google.com/apis/credentials)**.
 2. Select your project and click **Create Credentials > OAuth client ID** (Application type: *Web application*).
-3. In **Authorized JavaScript origins**, add both local and deployed domains:
+3. In **Authorized JavaScript origins**, add local and deployed domains:
    - `http://localhost:5173`
-   - `http://agentspace.54.255.113.123.nip.io` *(replace with your deployed domain or IP)*
+   - `http://k8s-default-codespac-39be8f97ce-344985305.ap-southeast-1.elb.amazonaws.com`
+   - `http://agentspace.54.255.113.123.nip.io`
+   - `http://agentspace-54-255-113-123.sslip.io`
 4. In **Authorized redirect URIs**, add:
    - `http://localhost:5173/api/auth/google/callback`
+   - `http://k8s-default-codespac-39be8f97ce-344985305.ap-southeast-1.elb.amazonaws.com/api/auth/google/callback`
    - `http://agentspace.54.255.113.123.nip.io/api/auth/google/callback`
+   - `http://agentspace-54-255-113-123.sslip.io/api/auth/google/callback`
 5. Save your changes. Store the **Client ID** and **Client Secret** in `k8s/secrets.yml`.
 
 > [!IMPORTANT]
@@ -448,13 +455,14 @@ helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
    *Expected output: All target groups report `healthy`.*
 
 5. **Retrieve Your Live URL**:
-   Get the ALB address:
+   Get the permanent ALB address:
    ```bash
    kubectl get ingress codespace-ingress -o jsonpath="{.status.loadBalancer.ingress[0].hostname}"
    ```
-   Access your application using wildcard DNS:
-   - **Primary**: `http://agentspace.<ALB_IP>.nip.io`
-   - **Alternative**: `http://agentspace-<ALB_IP_DASHES>.sslip.io`
+   Access your application using any of the available endpoints:
+   - **Permanent AWS ALB**: `http://<ALB_HOSTNAME>` (e.g. `http://k8s-default-codespac-39be8f97ce-344985305.ap-southeast-1.elb.amazonaws.com`)
+   - **Wildcard Subdomains (nip.io)**: `http://agentspace.<ALB_IP>.nip.io`
+   - **Wildcard Subdomains (sslip.io)**: `http://agentspace-<ALB_IP_DASHES>.sslip.io`
 
 ---
 
