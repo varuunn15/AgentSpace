@@ -8,9 +8,13 @@ export async function createPod(sandboxId, projectId) {
     const configuredPreviewPort = new URL(`http://${previewDomain}`).port;
     const hmrClientPort = configuredPreviewPort || (isProduction ? '443' : '8080');
 
+    const templateImage = process.env.TEMPLATE_IMAGE || "template:latest";
+    const agentImage = process.env.AGENT_IMAGE || "agent:latest";
+    const syncAgentImage = process.env.SYNC_AGENT_IMAGE || "sync-agent:latest";
+
     const containers = [
         {
-            image: "688928000248.dkr.ecr.ap-southeast-1.amazonaws.com/template",
+            image: templateImage,
             imagePullPolicy: "IfNotPresent",
             name: 'sandbox-container',
             ports: [ { containerPort: 5173, name: "http" } ],
@@ -29,7 +33,7 @@ export async function createPod(sandboxId, projectId) {
             ]
         },
         {
-            image: "688928000248.dkr.ecr.ap-southeast-1.amazonaws.com/agent",
+            image: agentImage,
             imagePullPolicy: "IfNotPresent",
             name: 'agent-container',
             ports: [ { containerPort: 3000, name: "http" } ],
@@ -54,7 +58,7 @@ export async function createPod(sandboxId, projectId) {
     );
     if (projectId && hasAwsCredentials) {
         containers.push({
-            image: "688928000248.dkr.ecr.ap-southeast-1.amazonaws.com/sync-agent",
+            image: syncAgentImage,
             imagePullPolicy: "IfNotPresent",
             name: 'sync-agent-container',
             env: [
@@ -91,7 +95,7 @@ export async function createPod(sandboxId, projectId) {
             initContainers: [
                 {
                     name: "init-container",
-                    image: "688928000248.dkr.ecr.ap-southeast-1.amazonaws.com/template",
+                    image: templateImage,
                     imagePullPolicy: "IfNotPresent",
                     command: ["sh", "-c", "cp -r /workspace/. /seed/"],
                     volumeMounts: [

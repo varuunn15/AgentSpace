@@ -15,13 +15,13 @@ spec:
         app: auth
     spec:
       containers:
-      - image: 688928000248.dkr.ecr.ap-southeast-1.amazonaws.com/auth:latest
-        imagePullPolicy: Always
+      - image: auth:latest
+        imagePullPolicy: IfNotPresent
         name:  auth-container
         resources:
           requests:
-            cpu: "250m"
-            memory: "128M"
+            cpu: "20m"
+            memory: "32M"
           limits:
             cpu: "500m"
             memory: "256M"

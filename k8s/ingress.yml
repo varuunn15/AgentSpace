@@ -12,7 +12,7 @@ spec:
   ingressClassName: alb
   rules:
   # Wildcard subdomains for sandbox preview and agent proxies (Must be evaluated first)
-  - host: "*.preview.agentspace.54.255.113.123.nip.io"
+  - host: "*.preview.agentspace.3.109.242.157.nip.io"
     http:
       paths:
       - pathType: Prefix
@@ -23,7 +23,7 @@ spec:
             port: 
               number: 80
 
-  - host: "*.agent.agentspace.54.255.113.123.nip.io"
+  - host: "*.agent.agentspace.3.109.242.157.nip.io"
     http:
       paths:
       - pathType: Prefix
@@ -34,7 +34,7 @@ spec:
             port: 
               number: 80
 
-  - host: "*.preview.54.255.113.123.nip.io"
+  - host: "*.preview.3.109.242.157.nip.io"
     http:
       paths:
       - pathType: Prefix
@@ -45,7 +45,7 @@ spec:
             port: 
               number: 80
 
-  - host: "*.agent.54.255.113.123.nip.io"
+  - host: "*.agent.3.109.242.157.nip.io"
     http:
       paths:
       - pathType: Prefix
@@ -56,7 +56,7 @@ spec:
             port: 
               number: 80
 
-  - host: "*.preview.agentspace-54-255-113-123.sslip.io"
+  - host: "*.preview.agentspace.3.109.242.157.sslip.io"
     http:
       paths:
       - pathType: Prefix
@@ -67,7 +67,7 @@ spec:
             port: 
               number: 80
 
-  - host: "*.agent.agentspace-54-255-113-123.sslip.io"
+  - host: "*.agent.agentspace.3.109.242.157.sslip.io"
     http:
       paths:
       - pathType: Prefix

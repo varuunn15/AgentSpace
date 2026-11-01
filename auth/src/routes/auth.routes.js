@@ -42,15 +42,15 @@ router.get('/google/callback', passport.authenticate('google', {
         // Generate JWT token
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
 
-        const isProduction = process.env.NODE_ENV === 'production';
-        const frontendUrl = process.env.FRONTEND_URL || (isProduction ? 'https://www.cryboy.in' : 'http://localhost:5173');
-        const cookieDomain = process.env.COOKIE_DOMAIN || (isProduction ? '.cryboy.in' : undefined);
+        const frontendUrl = process.env.FRONTEND_URL || '/';
+        const isSecure = process.env.COOKIE_SECURE === 'true';
+        const cookieDomain = process.env.COOKIE_DOMAIN || undefined;
 
         // Set token in cookie
         const cookieOptions = {
             httpOnly: true,           // JS can't read it — XSS protection
-            secure: isProduction,     // only sent over HTTPS in production
-            sameSite: isProduction ? 'none' : 'lax',
+            secure: isSecure,         // only true if COOKIE_SECURE=true (HTTPS)
+            sameSite: isSecure ? 'none' : 'lax',
             maxAge: 7 * 24 * 60 * 60 * 1000  // 7 days
         };
 
@@ -94,13 +94,13 @@ router.get('/me', async (req, res) => {
 
 // Logout endpoint — clears authentication token cookie
 const handleLogout = (req, res) => {
-    const isProduction = process.env.NODE_ENV === 'production';
-    const cookieDomain = process.env.COOKIE_DOMAIN || (isProduction ? '.cryboy.in' : undefined);
+    const isSecure = process.env.COOKIE_SECURE === 'true';
+    const cookieDomain = process.env.COOKIE_DOMAIN || undefined;
 
     const cookieOptions = {
         httpOnly: true,
-        secure: isProduction,
-        sameSite: isProduction ? 'none' : 'lax'
+        secure: isSecure,
+        sameSite: isSecure ? 'none' : 'lax'
     };
 
     if (cookieDomain) {

@@ -15,12 +15,13 @@ spec:
         app:  notification
     spec:
       containers:
-      - image: 688928000248.dkr.ecr.ap-southeast-1.amazonaws.com/notification
+      - image: notification:latest
+        imagePullPolicy: IfNotPresent
         name:  notification-server
         resources:
           requests:
-            cpu: "150m"
-            memory: "100M"
+            cpu: "20m"
+            memory: "32M"
           limits:
             cpu: "300m"
             memory: "200M"

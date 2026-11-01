@@ -1,8 +1,8 @@
 # 🚀 AgentSpace — Cloud-Native AI Sandbox & Web IDE
 
-> 🔗 **Primary Live Deployment (nip.io)**: [http://agentspace.54.255.113.123.nip.io](http://agentspace.54.255.113.123.nip.io)  
-> 🌐 **Permanent Direct AWS ALB**: [http://k8s-default-codespac-39be8f97ce-344985305.ap-southeast-1.elb.amazonaws.com](http://k8s-default-codespac-39be8f97ce-344985305.ap-southeast-1.elb.amazonaws.com)  
-> 🪞 **Alternative Mirror (sslip.io)**: [http://agentspace-54-255-113-123.sslip.io](http://agentspace-54-255-113-123.sslip.io)  
+> 🔗 **Primary Permanent Live Deployment (nip.io)**: [http://agentspace.3.109.242.157.nip.io](http://agentspace.3.109.242.157.nip.io)  
+> 🌐 **Permanent Elastic IP (AWS Mumbai)**: `3.109.242.157`  
+> 🪞 **Wildcard Sandbox Preview**: `*.preview.agentspace.3.109.242.157.nip.io`  
 >
 > 💡 *Note: The deployment serves over HTTP (port 80). Ensure your browser does not auto-upgrade the request to HTTPS (`https://`).*
 
@@ -261,14 +261,14 @@ kubectl apply -f k8s/secrets.yml
 2. Select your project and click **Create Credentials > OAuth client ID** (Application type: *Web application*).
 3. In **Authorized JavaScript origins**, add local and deployed domains:
    - `http://localhost:5173`
-   - `http://k8s-default-codespac-39be8f97ce-344985305.ap-southeast-1.elb.amazonaws.com`
-   - `http://agentspace.54.255.113.123.nip.io`
-   - `http://agentspace-54-255-113-123.sslip.io`
+   - `http://agentspace.3.109.242.157.nip.io`
+   - `http://agentspace.3.109.242.157.sslip.io`
+   - `http://3.109.242.157`
 4. In **Authorized redirect URIs**, add:
    - `http://localhost:5173/api/auth/google/callback`
-   - `http://k8s-default-codespac-39be8f97ce-344985305.ap-southeast-1.elb.amazonaws.com/api/auth/google/callback`
-   - `http://agentspace.54.255.113.123.nip.io/api/auth/google/callback`
-   - `http://agentspace-54-255-113-123.sslip.io/api/auth/google/callback`
+   - `http://agentspace.3.109.242.157.nip.io/api/auth/google/callback`
+   - `http://agentspace.3.109.242.157.sslip.io/api/auth/google/callback`
+   - `http://3.109.242.157/api/auth/google/callback`
 5. Save your changes. Store the **Client ID** and **Client Secret** in `k8s/secrets.yml`.
 
 > [!IMPORTANT]

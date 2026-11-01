@@ -1,0 +1,151 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: codespace-ingress
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: web
+spec:
+  rules:
+  # Wildcard subdomains for sandbox preview and agent proxies (nip.io)
+  - host: "*.preview.agentspace.3.109.242.157.nip.io"
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: router-service
+            port: 
+              number: 80
+
+  - host: "*.agent.agentspace.3.109.242.157.nip.io"
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: router-service
+            port: 
+              number: 80
+
+  # Wildcard subdomains (sslip.io mirror)
+  - host: "*.preview.agentspace.3.109.242.157.sslip.io"
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: router-service
+            port: 
+              number: 80
+
+  - host: "*.agent.agentspace.3.109.242.157.sslip.io"
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: router-service
+            port: 
+              number: 80
+
+  # Primary nip.io domain
+  - host: "agentspace.3.109.242.157.nip.io"
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/api/sandbox"
+        backend:
+          service:
+            name: sandbox-service
+            port: 
+              number: 80
+      - pathType: Prefix
+        path: "/api/ai"
+        backend:
+          service:
+            name: ai-service
+            port: 
+              number: 80
+      - pathType: Prefix
+        path: "/api/auth"
+        backend:
+          service:
+            name: auth-service
+            port: 
+              number: 80
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: frontend-service
+            port: 
+              number: 5173
+
+  # Alternative sslip.io domain
+  - host: "agentspace.3.109.242.157.sslip.io"
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/api/sandbox"
+        backend:
+          service:
+            name: sandbox-service
+            port: 
+              number: 80
+      - pathType: Prefix
+        path: "/api/ai"
+        backend:
+          service:
+            name: ai-service
+            port: 
+              number: 80
+      - pathType: Prefix
+        path: "/api/auth"
+        backend:
+          service:
+            name: auth-service
+            port: 
+              number: 80
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: frontend-service
+            port: 
+              number: 5173
+
+  # Direct IP fallback (e.g. http://3.109.242.157)
+  - http:
+      paths:
+      - pathType: Prefix
+        path: "/api/sandbox"
+        backend:
+          service:
+            name: sandbox-service
+            port: 
+              number: 80
+      - pathType: Prefix
+        path: "/api/ai"
+        backend:
+          service:
+            name: ai-service
+            port: 
+              number: 80
+      - pathType: Prefix
+        path: "/api/auth"
+        backend:
+          service:
+            name: auth-service
+            port: 
+              number: 80
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: frontend-service
+            port: 
+              number: 5173

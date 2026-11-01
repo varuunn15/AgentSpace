@@ -15,13 +15,13 @@ spec:
         app:  ai-server
     spec:
       containers:
-      - image: 688928000248.dkr.ecr.ap-southeast-1.amazonaws.com/ai-orchestration:latest
-        imagePullPolicy: Always
+      - image: ai-orchestration:latest
+        imagePullPolicy: IfNotPresent
         name:  ai-server
         resources:
           requests:
-            cpu: "250m"
-            memory: "128M"
+            cpu: "20m"
+            memory: "32M"
           limits:
             cpu: "500m"
             memory: "256M"

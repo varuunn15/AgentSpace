@@ -11,7 +11,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(cors({
-    origin: [ 'https://www.cryboy.in', /\.cryboy\.in$/, 'http://localhost:5173' ],
+    origin: (origin, callback) => callback(null, true),
     credentials: true,
     methods: [ 'GET', 'POST', 'PUT', 'DELETE', 'OPTIONS' ]
 }));
